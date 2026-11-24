@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src @@SCRIPT_HASH@@ blob: 'wasm-unsafe-eval'; style-src 'unsafe-inline'; img-src blob: data:; font-src blob: data:; worker-src 'self' blob:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="theme-color" content="#171c20">
+  <meta name="description" content="Review and sort local files in the browser.">
+  <link rel="icon" href="@@ICON@@">
+  <title>Data Sorter</title>
+  <style>@@STYLE@@</style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Data Sorter workspace">
+        <img src="@@ICON@@" alt="" width="40" height="40">
+        <span><strong>Data Sorter</strong><small>Local file review</small></span>
+      </a>
+      <div class="top-actions">
+        <span class="connection" id="offline" role="status">@@OFFLINE@@</span>
+        <a id="portableLink" class="button icon" href="./index.html" download="Data Sorter.html" title="Download offline copy" aria-label="Download offline copy" hidden>@@hard-drive-download@@</a>
+        <button id="help" class="icon" title="Keyboard shortcuts" aria-label="Keyboard shortcuts">@@circle-help@@</button>
+        <button id="configure" class="icon" title="Session settings" aria-label="Session settings" hidden>@@settings-2@@</button>
+        <button id="export" class="primary" disabled>@@download@@<span>Export CSV</span></button>
+      </div>
+    </header>
+    <div class="summary">
+      <div class="summary-name"><span class="path-mark">@@folder-open@@</span><strong id="sessionName">New session</strong><span id="modeBadge" class="badge" hidden></span></div>
+      <div class="progress-label"><progress id="progress" value="0" max="1" aria-label="Sorting progress"></progress><span id="progressText">No files loaded</span></div>
+    </div>
+    <main id="workspace" class="workspace" hidden>
+      <aside class="files">
+        <div class="pane-title"><h2>Files</h2><span id="remaining" class="badge"></span></div>
+        <label class="filter">@@list-filter@@<span>Undecided only</span><input id="undecided" type="checkbox"></label>
+        <div id="fileList" class="file-list" aria-label="Session files"></div>
+      </aside>
+      <section class="preview" aria-label="File preview">
+        <div class="viewer-bar">
+          <div class="file-heading"><span id="fileType" class="type"></span><div><h1 id="currentTitle"></h1><small id="currentPosition"></small></div></div>
+          <div class="toolbar">
+            <button id="minus" class="icon" title="Zoom out" aria-label="Zoom out">@@minus@@</button>
+            <input id="zoom" type="range" min="100" max="500" step="1" value="100" aria-label="Zoom">
+            <button id="plus" class="icon" title="Zoom in" aria-label="Zoom in">@@plus@@</button>
+            <button id="fit" class="icon" title="Fit preview" aria-label="Fit preview">@@maximize@@</button>
+            <output id="zoomLabel" for="zoom">100%</output>
+          </div>
+        </div>
+        <div id="viewport" class="viewport" tabindex="0" aria-label="Scrollable preview"><div id="surface" class="surface"></div></div>
+        <div class="viewer-footer">
+          <div id="currentPath" class="current-path"></div>
+          <div class="navigation">
+            <button id="undo" class="icon" title="Undo decision" aria-label="Undo decision">@@rotate-ccw@@</button>
+            <button id="prev" class="icon" title="Previous file" aria-label="Previous file">@@arrow-left@@</button>
+            <button id="next" class="icon" title="Next file" aria-label="Next file">@@arrow-right@@</button>
+          </div>
+        </div>
+      </section>
+      <aside class="decisions">
+        <div class="pane-title"><h2>Categories</h2><span id="currentChoice" class="badge">Undecided</span></div>
+        <div id="actions" class="decision-list"></div>
+      </aside>
+    </main>
+    <main id="setup" class="setup">
+      <section class="setup-intro">
+        <div class="setup-mark"><img src="@@ICON@@" alt="" width="64" height="64"></div>
+        <h1>Set up a session</h1>
+        <div class="format-icons"><span>JPG</span><span>PNG</span><span>DICOM</span><span>PDF</span><span>DOCX</span><span>TXT</span><span>CSV</span></div>
+      </section>
+      <form id="setupForm" class="setup-form">
+        <section class="form-section">
+          <h2>Folders</h2>
+          <div class="folder-row">@@folder-open@@<div><strong>Input folder</strong><small id="inputName">No folder selected</small></div><button type="button" id="input" aria-label="Browse input folder">Browse</button></div>
+          <div class="folder-row">@@folder-output@@<div><strong>Output folder</strong><small id="outputName">No folder selected</small></div><button type="button" id="output" aria-label="Browse output folder">Browse</button></div>
+          <fieldset class="mode"><legend>File operation</legend><label><input type="radio" name="mode" value="copy" checked><span>Copy</span></label><label><input type="radio" name="mode" value="move"><span>Move</span></label></fieldset>
+        </section>
+        <section class="form-section">
+          <div class="section-heading"><h2>Categories</h2><button id="add" type="button" title="Add category" aria-label="Add category">@@plus@@<span>Add</span></button></div>
+          <div class="category-head"><span>Name</span><span>Key</span></div>
+          <div id="categoryRows"></div>
+        </section>
+        <footer class="setup-actions">
+          <input id="importFile" type="file" accept=".csv,text/csv" hidden>
+          <button id="import" type="button">@@upload@@<span>Import CSV</span></button>
+          <button id="clearImport" type="button" hidden>Cancel import</button>
+          <button id="back" type="button" hidden>Back</button>
+          <button id="start" class="primary" type="submit">Start sorting @@arrow-right@@</button>
+        </footer>
+        <p id="setupStatus" class="setup-status" role="status" hidden></p>
+      </form>
+    </main>
+    <footer class="status"><span>@@lock-keyhole@@ Files stay on this device</span><span id="footerStatus"></span></footer>
+  </div>
+  <dialog id="shortcuts">
+    <div class="section-heading"><h2>Keyboard shortcuts</h2><button class="icon" id="closeHelp" aria-label="Close">@@x@@</button></div>
+    <dl id="shortcutList"></dl>
+  </dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <template id="thirdPartyLicences"><pre>@@LICENSES@@</pre></template>
+  <script>@@BOOT@@</script>
+</body>
+</html>

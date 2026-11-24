@@ -1,0 +1,16 @@
+{
+  "env": { "browser": true, "worker": true },
+  "globals": { "VENDOR": "readonly", "ICONS": "readonly", "fflate": "readonly" },
+  "categories": { "correctness": "error", "suspicious": "warn" },
+  "rules": {
+    "eslint/no-undef": "error",
+    "eslint/no-unused-vars": "error",
+    "unicorn/consistent-function-scoping": "off"
+  },
+  "overrides": [
+    {
+      "files": ["web/dicom_worker.js"],
+      "rules": { "unicorn/require-post-message-target-origin": "off" }
+    }
+  ]
+}
