@@ -1,4 +1,4 @@
-name: Validate Data Sorter
+name: Validate and publish Data Sorter
 
 on:
   push:
@@ -36,5 +36,54 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: data-sorter-offline
-          path: dist/
+          path: dist/release/
           if-no-files-found: error
+      - uses: actions/upload-pages-artifact@v4
+        if: github.repository == 'kavehsame/data-sorter' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          path: dist/pages/
+
+  pages:
+    if: github.repository == 'kavehsame/data-sorter' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
+
+  release:
+    needs: pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: data-sorter-offline
+          path: release-assets
+      - name: Publish versioned download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="v$(tr -d '\n' < site/VERSION)"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "$tag already exists."
+            exit 0
+          fi
+          gh release create "$tag" release-assets/data-sorter-offline.zip release-assets/SHA256SUMS.txt \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --latest \
+            --title "Data Sorter $tag" --notes-file site/release-notes.md

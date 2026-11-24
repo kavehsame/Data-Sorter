@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Software checks | Data Sorter</title>
+  <link rel="icon" href="assets/icon.png">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <header class="wrap">
+    <a class="brand" href="./"><img src="assets/icon.png" width="42" height="42" alt="">Data Sorter</a>
+    <nav aria-label="Main navigation">
+      <a href="guide.html">User guide</a>
+      <a href="checks.html" aria-current="page">Software checks</a>
+      <a href="https://github.com/kavehsame/data-sorter">GitHub</a>
+    </nav>
+  </header>
+  <main class="wrap">
+    <article class="intro">
+      <h1>Software checks</h1>
+      <p class="lead">Review the tests for sorting, previews and the offline cache.</p>
+      <section class="section">
+        <h2>What's tested</h2>
+        <ul>
+          <li>Session CSV parsing, folder scans, copy and move, undo and recovery after a failed write.</li>
+          <li>PDF zoom and pan, document and image previews, keyboard shortcuts and file-list scrolling.</li>
+          <li>Offline reopening after the original server stops and consistency between the downloadable and hosted app.</li>
+        </ul>
+      </section>
+      <section class="section">
+        <h2>Evidence and reproducibility</h2>
+        <p>Automated checks use synthetic files. The browser tests supply test folder handles in place of the operating system's folder picker. The report describes the tested formats and the limits of coverage.</p>
+        <p><a href="https://github.com/kavehsame/data-sorter/blob/main/docs/validation.md">Read the validation report</a></p>
+        <p><a href="https://github.com/kavehsame/data-sorter/actions">See the GitHub Actions results</a></p>
+      </section>
+    </article>
+  </main>
+  <footer class="wrap"><nav aria-label="Project links"><a href="./">Overview</a><a href="app/LICENSE">Licence</a><a href="https://github.com/kavehsame/data-sorter/issues">Support</a></nav></footer>
+</body>
+</html>

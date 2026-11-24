@@ -4,7 +4,7 @@ Data Sorter is a browser app for reviewing local files and sorting them into cat
 
 ## Use Data Sorter
 
-Open `Data Sorter.html` in current desktop Chrome or Edge. The standalone file includes the app and its libraries and works offline. The downloadable build is named **data-sorter-offline** in the repository's Actions workflow.
+Open the [Data Sorter website](https://kavehsame.github.io/data-sorter/) in current desktop Chrome or Edge. The [user guide](https://kavehsame.github.io/data-sorter/guide.html) covers local folders, shortcuts and resuming a session. For a portable copy, extract the [offline ZIP](https://github.com/kavehsame/data-sorter/releases/latest/download/data-sorter-offline.zip) and open `Data Sorter.html`.
 
 1. Choose an input folder and an output folder. Data Sorter scans the input recursively and skips the selected output folder.
 2. Select **Copy** or **Move**, enter category names and assign a shortcut to each category.
@@ -17,9 +17,9 @@ DICOM shows the first frame and supports common transfer syntaxes. DOCX preview 
 
 ## Build and serve
 
-Run `python -B scripts/build.py` with Python 3.13 or newer. The build uses the checked-in libraries and needs no downloads. It writes `dist/Data Sorter.html` and `dist/website/`.
+Run `python -B -m scripts.build_site` with Python 3.13 or newer. The build uses the checked-in libraries and needs no downloads. It writes the Pages site to `dist/pages/` and the ZIP and checksum to `dist/release/`.
 
-Serve the contents of `dist/website/` at an HTTPS address to use the offline cache. Wait for **Offline ready** on first access. Return to the same URL offline. The portable HTML remains available if the browser clears its site cache.
+Serve the contents of `dist/pages/` at an HTTPS address. Open the app and wait for **Offline ready**. Bookmark the app page to return to it offline.
 
 ## Development
 

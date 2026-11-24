@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Preview and sort local files. Data Sorter runs offline in your browser.">
+  <meta name="referrer" content="no-referrer">
+  <title>Data Sorter</title>
+  <link rel="icon" href="assets/icon.png">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <header class="wrap">
+    <a class="brand" href="./" aria-current="page"><img src="assets/icon.png" width="42" height="42" alt="">Data Sorter</a>
+    <nav aria-label="Main navigation">
+      <a href="guide.html">User guide</a>
+      <a href="checks.html">Software checks</a>
+      <a href="https://github.com/kavehsame/data-sorter">GitHub</a>
+    </nav>
+  </header>
+  <main class="wrap">
+    <section class="intro" aria-labelledby="title">
+      <a class="version" href="https://github.com/kavehsame/data-sorter/releases/latest">Version @@VERSION@@</a>
+      <h1 id="title">Data Sorter</h1>
+      <p class="lead">Preview documents and images, assign categories and organise files into folders on your device.</p>
+      <div class="actions">
+        <a class="button launch" href="app/">Start the web app</a>
+        <a class="button secondary" href="https://github.com/kavehsame/data-sorter/releases/latest/download/data-sorter-offline.zip">Download offline ZIP</a>
+      </div>
+      <p class="callout"><strong>Runs locally in Chrome or Edge.</strong> Your browser reads the files you select and writes results to the folders you choose.</p>
+    </section>
+    <section class="section" aria-labelledby="how">
+      <h2 id="how">How to sort files</h2>
+      <ol class="steps">
+        <li><h3>Choose your folders</h3><p>Pick the source and destination folders, then add the categories you need.</p></li>
+        <li><h3>Review and sort</h3><p>Inspect each file and assign a category. Choose whether to copy or move it.</p></li>
+        <li><h3>Save your progress</h3><p>Export a CSV of your decisions. Import it later to resume the session.</p></li>
+      </ol>
+      <p class="small">On first use, the browser stores about @@CACHE_MB@@ MB for offline use. The offline ZIP is @@ZIP_MB@@ MB. Extract it and open <code>Data Sorter.html</code> in Chrome or Edge.</p>
+    </section>
+    <section class="section">
+      <h2>Supported previews</h2>
+      <p>JPEG, PNG, DICOM, PDF, DOCX, TXT and CSV. Use the zoom and navigation controls while reviewing, or filter the file list to undecided items.</p>
+      <a href="guide.html">Read the user guide</a>
+    </section>
+  </main>
+  <footer class="wrap">
+    <nav aria-label="Project links">
+      <a href="app/LICENSE">Licence</a>
+      <a href="app/THIRD_PARTY_NOTICES.txt">Third-party notices</a>
+      <a href="https://github.com/kavehsame/data-sorter/releases">Releases</a>
+      <a href="https://github.com/kavehsame/data-sorter/issues">Support</a>
+    </nav>
+  </footer>
+</body>
+</html>

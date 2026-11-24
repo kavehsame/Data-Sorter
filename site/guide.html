@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>User guide | Data Sorter</title>
+  <link rel="icon" href="assets/icon.png">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <header class="wrap">
+    <a class="brand" href="./"><img src="assets/icon.png" width="42" height="42" alt="">Data Sorter</a>
+    <nav aria-label="Main navigation">
+      <a href="guide.html" aria-current="page">User guide</a>
+      <a href="checks.html">Software checks</a>
+      <a href="https://github.com/kavehsame/data-sorter">GitHub</a>
+    </nav>
+  </header>
+  <main class="wrap">
+    <article class="intro">
+      <h1>User guide</h1>
+      <p class="lead">Set up a sorting session and return to it later.</p>
+      <div class="actions"><a class="button" href="app/">Start the web app</a></div>
+      <section class="section">
+        <h2>Prepare the browser</h2>
+        <p>Use desktop Chrome or Edge for folder access. When the app shows <strong>Offline ready</strong>, bookmark the app page and reopen that address to work offline. For a portable copy, extract the <a href="https://github.com/kavehsame/data-sorter/releases/latest/download/data-sorter-offline.zip">offline ZIP</a> and open <code>Data Sorter.html</code>.</p>
+      </section>
+      <section class="section">
+        <h2>Sort a folder</h2>
+        <ol>
+          <li>Choose the input folder and a destination for sorted files. Data Sorter scans the input and its subfolders.</li>
+          <li>Select <strong>Copy</strong> to retain the source files or <strong>Move</strong> to relocate them. Move mode requires write access to the input folder.</li>
+          <li>Add categories and assign a shortcut to each. Start sorting and use the category buttons or shortcuts to make decisions.</li>
+        </ol>
+        <p>Use the arrow keys to navigate without assigning a category. Use <strong>Undecided only</strong> to hide sorted files. Use <kbd>Ctrl</kbd> + <kbd>Z</kbd> or <kbd>Command</kbd> + <kbd>Z</kbd> to undo the last decision.</p>
+      </section>
+      <section class="section">
+        <h2>Review previews</h2>
+        <p>The app retains the zoom level between files. Use the slider or a zoom gesture, scroll through documents and drag to pan when a preview extends beyond the viewing area. DICOM shows the first frame. DOCX preview shows extracted text.</p>
+      </section>
+      <section class="section">
+        <h2>Resume a session</h2>
+        <p>Export <code>data_sorter_results.csv</code> to the output folder. To resume, import the CSV and select the current input and output folders. The app restores decisions and position. Undo history starts with the next decision.</p>
+      </section>
+    </article>
+  </main>
+  <footer class="wrap"><nav aria-label="Project links"><a href="./">Overview</a><a href="app/LICENSE">Licence</a><a href="https://github.com/kavehsame/data-sorter/issues">Support</a></nav></footer>
+</body>
+</html>

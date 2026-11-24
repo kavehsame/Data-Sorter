@@ -374,6 +374,33 @@ def check_release(browser, url, stop_server, screenshot):
     browser.command("Emulation.clearDeviceMetricsOverride")
 
 
+def check_overview(browser, url, screenshot):
+    browser.command("Page.navigate", url=url)
+    browser.expect(
+        "document.title === 'Data Sorter' && document.querySelector('h1')?.textContent === 'Data Sorter'",
+        "overview renders under a project subpath",
+    )
+    browser.expect(
+        "getComputedStyle(document.querySelector('.steps')).display === 'grid'",
+        "overview stylesheet loads",
+    )
+    preview = browser.command("Page.captureScreenshot", format="png")
+    screenshot.write_bytes(base64.b64decode(preview["data"]))
+    browser.command(
+        "Emulation.setDeviceMetricsOverride", width=390, height=750, deviceScaleFactor=1, mobile=False
+    )
+    browser.expect(
+        "document.documentElement.scrollWidth === document.documentElement.clientWidth && document.querySelector('.launch').getBoundingClientRect().bottom < innerHeight",
+        "overview launch remains visible at narrow width",
+    )
+    browser.command("Emulation.clearDeviceMetricsOverride")
+    browser.js("document.querySelector('.launch').click()")
+    browser.expect(
+        "location.pathname.endsWith('/pages/app/') && Boolean(document.getElementById('input'))",
+        "overview opens the nested web app",
+    )
+
+
 def main():
     work = ROOT / ".checks"
     if work.resolve() != work:
@@ -382,9 +409,7 @@ def main():
     chrome_bin = os.environ.get("CHROME_BIN") or shutil.which("google-chrome") or str(MAC_CHROME)
     if not Path(chrome_bin).is_file():
         raise FileNotFoundError("Set CHROME_BIN to the Chrome executable.")
-    server = ThreadingHTTPServer(
-        ("127.0.0.1", 0), partial(SimpleHTTPRequestHandler, directory=OUT / "website")
-    )
+    server = ThreadingHTTPServer(("127.0.0.1", 0), partial(SimpleHTTPRequestHandler, directory=OUT))
 
     def stop_server():
         server.shutdown()
@@ -422,9 +447,11 @@ def main():
                     with urlopen(f"http://127.0.0.1:{port}/json/list", timeout=5) as response:
                         page = json.load(response)[0]
                     browser = Browser(page["webSocketDebuggerUrl"])
+                    overview = f"http://127.0.0.1:{server.server_port}/pages/"
+                    check_overview(browser, overview, work / "overview.png")
                     check_release(
                         browser,
-                        f"http://127.0.0.1:{server.server_port}/",
+                        overview + "app/",
                         stop_server,
                         work / "preview.png",
                     )

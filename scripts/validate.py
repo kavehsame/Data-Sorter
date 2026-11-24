@@ -25,7 +25,7 @@ def main():
         "ruff-format": [*py, "-m", "ruff", "format", "--check", "--no-cache"],
         "javascript": [*py, "scripts/lint_web.py"],
         "unit": [*py, "-m", "pytest", f"--basetemp={working / 'pytest'}", f"--junitxml={junit}"],
-        "build": [*py, "scripts/build.py"],
+        "build": [*py, "-m", "scripts.build_site"],
         "chrome": [*py, "scripts/check_browser.py"],
     }
     results = {}
